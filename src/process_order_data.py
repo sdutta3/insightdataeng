@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
+# In[1]:
 
 
 # Product purchase analytics
@@ -14,16 +14,37 @@
 
 
 import csv
+import sys
 # import numpy as np
 
 
 # In[3]:
 
 
+input_filename1 = '../input/order_products.csv'
+try:
+    input_filename1 = sys.argv[1]
+except:
+    pass
+input_filename2 = '../input/products.csv'
+try:
+    input_filename2 = sys.argv[2]
+except:
+    pass
+output_filename = '../output/report.csv'
+try:
+    output_filename = sys.argv[3]
+except:
+    pass
+
+
+# In[4]:
+
+
 orders = []
 product_ct = {}
 first_p_ct = {}
-with open('../input/order_products.csv') as csvfile:
+with open(input_filename1) as csvfile:
     try:
         reader = csv.DictReader(csvfile, fieldnames=('order_id','product_id','add_to_cart_order','reordered'))
         line_number = 0
@@ -48,24 +69,24 @@ with open('../input/order_products.csv') as csvfile:
 # csvfile.close()
 
 
-# In[4]:
+# In[5]:
 
 
 print(product_ct)
 
 
-# In[5]:
+# In[6]:
 
 
 print(first_p_ct)
 
 
-# In[6]:
+# In[7]:
 
 
 departments = []
 dept_products = {}
-with open('../input/products.csv') as csvfile:
+with open(input_filename2) as csvfile:
     try:
         reader = csv.DictReader(csvfile, fieldnames=('product_id','product_name','aisle_id','department_id'))
         line_number = 0
@@ -86,13 +107,13 @@ with open('../input/products.csv') as csvfile:
 # csvfile.close()
 
 
-# In[7]:
+# In[8]:
 
 
 print(dept_products)
 
 
-# In[8]:
+# In[9]:
 
 
 # Put ordered list of products ordered, and ordered for the first time into a new dictionary data structure
@@ -111,7 +132,11 @@ for dept_id in sorted(dept_products.keys()):
     number_of_first_orders = department_first_order_sum
     percentage = number_of_first_orders / number_of_orders
     dept_orders[dept_id] = [number_of_orders,number_of_first_orders,percentage]
-    dept_orders_csv.append([dept_id,number_of_orders,number_of_first_orders,percentage])
+    # dept_orders_csv.append([dept_id,number_of_orders,number_of_first_orders,percentage])
+    dept_orders_csv.append([dept_id,
+                            "{:d}".format(number_of_orders),
+                            "{:d}".format(number_of_first_orders),
+                            "{:.2f}".format(percentage)])
     
 
     
@@ -119,16 +144,22 @@ for dept_id in sorted(dept_products.keys()):
 #%.2f
 
 
-# In[9]:
+# In[10]:
 
 
 print(dept_orders)
 
 
-# In[10]:
+# In[11]:
 
 
-with open('../output/report.csv', 'w') as outcsvfile:
+print(dept_orders_csv)
+
+
+# In[12]:
+
+
+with open(output_filename, 'w', newline='') as outcsvfile:
     writer = csv.writer(outcsvfile)
     writer.writerows(dept_orders_csv)
 
