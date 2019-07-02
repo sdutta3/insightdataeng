@@ -10,7 +10,7 @@
 
 The script works with datasets structured like that published by Instacart of [3 million orders available here](https://www.instacart.com/datasets/grocery-shopping-2017).
 
-**This script , for each department, the number of times a product was requested, number of times a product was requested for the first time and a ratio of those two numbers.**
+**This script gives an analysis for each department. Specificially, it provides, for each department, the number of times a product was requested, number of times a product was requested for the first time and a ratio of those two numbers.**
 
 ## Script requirements
 
